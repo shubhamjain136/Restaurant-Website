@@ -1,5 +1,12 @@
 import React from "react";
-import { Card, CardImg, CardText, CardBody, CardTitle } from "reactstrap";
+import {
+  Card,
+  CardImg,
+  CardImgOverlay,
+  CardText,
+  CardBody,
+  CardTitle,
+} from "reactstrap";
 
 function RenderDish({ dish }) {
   {
@@ -16,22 +23,6 @@ function RenderDish({ dish }) {
     );
   }
 }
-
-const DishDetailComponent = (props) => {
-  if (props.dish != null) {
-    return (
-      <div className="container">
-        <div className="row">
-          <RenderDish dish={props.dish} />
-          <div className="col-12 col-md-5 m-1">
-            <h3 className="my-3">Comments</h3>
-            <RenderComments comments={props.dish.comments} />
-          </div>
-        </div>
-      </div>
-    );
-  } else return <div></div>;
-};
 
 function RenderComments({ comments }) {
   const commentsComponent = comments.map((comment) => {
@@ -51,4 +42,21 @@ function RenderComments({ comments }) {
   });
   return commentsComponent;
 }
+
+const DishDetailComponent = (props) => {
+  if (props.dish != null) {
+    return (
+      <div className="container">
+        <div className="row">
+          <RenderDish dish={props.dish} />
+          <div className="col-12 col-md-5 m-1">
+            <h3 className="my-3">Comments</h3>
+            <RenderComments comments={props.dish.comments} />
+          </div>
+        </div>
+      </div>
+    );
+  } else return <div></div>;
+};
+
 export default DishDetailComponent;
