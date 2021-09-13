@@ -8,23 +8,33 @@ import {
   Media,
 } from "reactstrap";
 import { Link } from "react-router-dom";
+import { fetchLeaders } from "../redux/ActionCreators";
+import { baseUrl } from "../shared/baseUrl";
+import { Loading } from "./LoadingComponent";
 
 function About(props) {
-  const leaders = props.leaders.map((leader) => {
-    return (
-      <Media key={leader.id} className="row row-content" tag="li">
-        <Media left href="/">
-          {/* <Media object data-src={leader.image} alt="alberto" /> */}
-          <img src={leader.image} />
+  let leaders;
+  if (props.leaders.isLoading) {
+    leaders = <Loading />;
+  } else if (props.leaders.errMess) {
+    leaders = <h3>{props.leaders.errMess}</h3>;
+  } else {
+    leaders = props.leaders.leaders.map((leader) => {
+      return (
+        <Media key={leader.id} className="row row-content" tag="li">
+          <Media left href="/">
+            {/* <Media object data-src={leader.image} alt="alberto" /> */}
+            <img src={baseUrl + leader.image} />
+          </Media>
+          <Media body>
+            <Media heading>{leader.name}</Media>
+            <p>{leader.designation}</p>
+            <p className="d-none d-sm-block">{leader.description}</p>
+          </Media>
         </Media>
-        <Media body>
-          <Media heading>{leader.name}</Media>
-          <p>{leader.designation}</p>
-          <p className="d-none d-sm-block">{leader.description}</p>
-        </Media>
-      </Media>
-    );
-  });
+      );
+    });
+  }
 
   return (
     <div className="container">

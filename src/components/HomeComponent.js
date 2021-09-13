@@ -1,5 +1,8 @@
 import React from "react";
 import { Loading } from "./LoadingComponent";
+
+import { baseUrl } from "../shared/baseUrl";
+
 import {
   Card,
   CardImg,
@@ -12,21 +15,26 @@ import {
 function RenderCard({ item, isLoading, errMess }) {
   if (isLoading) {
     return <Loading />;
-  } else if (errMess) {
+  } else if (errMess || null) {
     return <h4>{errMess}</h4>;
-  } else
+  }
+  // else if (item == undefined) {
+  //   return <div>{errMess}</div>;
+  // }
+  else {
     return (
       <Card>
-        <CardImg src={item.image} alt={item.name} />
+        <CardImg src={baseUrl + item.image} alt={item.name} />
         <CardBody>
           <CardTitle>{item.name}</CardTitle>
-          {item.designation ? (
+          {baseUrl + item.designation ? (
             <CardSubtitle>{item.designation}</CardSubtitle>
           ) : null}
           <CardText>{item.description}</CardText>
         </CardBody>
       </Card>
     );
+  }
 }
 
 function Home(props) {
@@ -41,10 +49,18 @@ function Home(props) {
           />
         </div>
         <div className="col-12 col-md m-1">
-          <RenderCard item={props.promotion} />
+          <RenderCard
+            item={props.promotion}
+            isLoading={props.promoLoading}
+            errMess={props.promoErrMess}
+          />
         </div>
         <div className="col-12 col-md m-1">
-          <RenderCard item={props.leader} />
+          <RenderCard
+            item={props.leader}
+            isLoading={props.leadersLoading}
+            errMess={props.leadersErrMess}
+          />
         </div>
       </div>
     </div>

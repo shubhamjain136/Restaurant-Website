@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Loading } from "./LoadingComponent";
+import { baseUrl } from "../shared/baseUrl";
 import {
   Card,
   CardImg,
@@ -29,7 +30,7 @@ function RenderDish({ dish }) {
     return (
       <div className="col-12 col-md-5 m-1">
         <Card>
-          <CardImg top src={dish.image} alt={dish.name} />
+          <CardImg top src={baseUrl + dish.image} alt={dish.name} />
           <CardBody>
             <CardTitle>{dish.name}</CardTitle>
             <CardText>{dish.description}</CardText>
@@ -40,7 +41,7 @@ function RenderDish({ dish }) {
   }
 }
 
-function RenderComments({ comments, addComment, dishId }) {
+function RenderComments({ comments, postComment, dishId }) {
   const commentsComponent = comments.map((comment) => {
     return (
       <div key={comment.id}>
@@ -59,7 +60,7 @@ function RenderComments({ comments, addComment, dishId }) {
   return (
     <>
       {commentsComponent}
-      <CommentFormComponent dishId={dishId} addComment={addComment} />
+      <CommentFormComponent dishId={dishId} postComment={postComment} />
     </>
   );
 }
@@ -82,7 +83,7 @@ class CommentFormComponent extends Component {
     // alert("Current State is: " + JSON.stringify(values));
     // console.log("Current State is: " + JSON.stringify(values));
     this.toggleModal();
-    this.props.addComment(
+    this.props.postComment(
       this.props.dishId,
       values.rating,
       values.author,
@@ -217,7 +218,7 @@ const DishDetail = (props) => {
               <h3 className="my-3">Comments</h3>
               <RenderComments
                 comments={props.comments}
-                addComment={props.addComment}
+                postComment={props.postComment}
                 dishId={props.dish.id}
               />
             </div>
